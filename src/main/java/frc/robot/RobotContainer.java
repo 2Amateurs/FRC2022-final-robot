@@ -82,6 +82,8 @@ public class RobotContainer {
     private final ClimberManualCommand climberRightDown = new ClimberManualCommand(ClimberSubsystem.Side.RIGHT, 0.4);
     private final ClimberManualCommand climberLeftUp = new ClimberManualCommand(ClimberSubsystem.Side.LEFT, -0.4);
     private final ClimberManualCommand climberRightUp = new ClimberManualCommand(ClimberSubsystem.Side.RIGHT, -0.4);
+    private final ClimberManualCommand climberRightStop = new ClimberManualCommand(ClimberSubsystem.Side.RIGHT, 0);
+    private final ClimberManualCommand climberLeftStop = new ClimberManualCommand(ClimberSubsystem.Side.LEFT, 0);
     private final ClimberManualCommand climberBothDown = new ClimberManualCommand(ClimberSubsystem.Side.BOTH, 0.7);
     private final ClimberManualCommand climberBothUp = new ClimberManualCommand(ClimberSubsystem.Side.BOTH, -1);
     private final ClimberCommand climberFreezePIDCommand = new ClimberCommand(ClimberSubsystem.PIDMode.FREEZE_PID);
@@ -140,7 +142,7 @@ public class RobotContainer {
                 .whenActive(climberLeftDown)
                 .whenInactive(climberManualStopCommand);
 
-        oi.turretAutoToggleBtn.whenActive(turretAutoToggleCommand);
+        //oi.turretAutoToggleBtn.whenActive(turretAutoToggleCommand);
         oi.turretModeDownBtn.whenActive(turretModeDecreaseCommand);
         oi.turretModeUpBtn.whenActive(turretModeIncreaseCommand);
 
@@ -162,6 +164,12 @@ public class RobotContainer {
                 .whenActive(Robot::resetGyro)
                 .whenActive(() -> TurretSubsystem.targetYaw = 0.0);
 
+        oi.rightClimberUp.whenActive(climberRightUp);
+        oi.rightClimberDown.whenActive(climberRightDown);
+        oi.rightClimberStop.whenActive(climberRightStop);
+        oi.leftClimberUp.whenActive(climberLeftUp);
+        oi.leftClimberDown.whenActive(climberLeftDown);
+        oi.leftClimberStop.whenActive(climberLeftStop);
         oi.rightClimberDown
                 .whenActive(climberRightDown)
                 .whenInactive(climberManualStopCommand);
@@ -189,6 +197,7 @@ public class RobotContainer {
             GlobalVariables.DistanceOffset -= 0.5;
             SmartDashboard.putNumber("Distance Offset", GlobalVariables.DistanceOffset);
         });
+        oi.turretAutoToggleBtn.whenActive(turretAutoToggleCommand);
     }
 
     public void changeControlLayout(OI.DriveSystem driveSystem) {

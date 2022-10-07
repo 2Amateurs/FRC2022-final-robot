@@ -3,10 +3,10 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 
 public class GlobalVariables {
-    public static OI.DriveSystem driveSystem = OI.DriveSystem.TWO_SWITCH;
+    public static OI.DriveSystem driveSystem = OI.DriveSystem.INNOVATOR_STATION;
 
     public static boolean autoTarget = false;
-    public static boolean TankDrive = false;
+    public static boolean TankDrive = true;
     public static double LastColorSensorDetectTime = 0;
     public static double TargetDistance = 1;
     public static double DistanceOffset = -0.5;

@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
@@ -25,7 +26,7 @@ import static org.photonvision.PhotonUtils.calculateDistanceToTargetMeters;
 public class TurretSubsystem extends SubsystemBase {
     public static TurretSubsystem instance = null;
 
-    private final TalonSRX horMotor = new TalonSRX(Constants.turretHorMotorPort);
+    private final VictorSPX horMotor = new VictorSPX(Constants.turretHorMotorPort);
     private final PIDController horController = new PIDController(0.013, 0.0, 0.0);
     private double horEncoderPos = 0;
 
@@ -54,8 +55,7 @@ public class TurretSubsystem extends SubsystemBase {
         if (Constants.CALIBRATION_MODE) {
             SmartDashboard.putNumber("Vertical Calibration Setpoint", 0);
         }
-        camera.setLED(VisionLEDMode.kOff);
-        camera.setDriverMode(true);
+        camera.setLED(VisionLEDMode.kOn);
         camera.setDriverMode(true);
         camera.setDriverMode(false);
     }
@@ -173,6 +173,7 @@ public class TurretSubsystem extends SubsystemBase {
         double goalYaw;
         if (autoTarget && target != null) {
             goalYaw = (-target.getYaw() * 0.6) + horEncoderPos + offsetYaw;
+            SmartDashboard.putNumber("Target Yaw", goalYaw);
             targetYaw = goalYaw;
         } else if (autoTarget) {
             goalYaw = targetYaw;
@@ -225,14 +226,16 @@ public class TurretSubsystem extends SubsystemBase {
 
     private void vertMotorControl(PhotonTrackedTarget target) {
         SmartDashboard.putBoolean("Vertical Limit Switch", getVertLimitSwitch());
-        if (vertSetpoint >= 0) {
-            if (Constants.CALIBRATION_MODE) {
-                vertSetpoint = SmartDashboard.getNumber("Vertical Calibration Setpoint", 0);
-            } else {
-                vertSetpoint = GlobalVariables.getVertSetpoint();
+        if(autoTarget) {
+            if (vertSetpoint >= 0) {
+                if (Constants.CALIBRATION_MODE) {
+                    vertSetpoint = SmartDashboard.getNumber("Vertical Calibration Setpoint", 0);
+                } else {
+                    vertSetpoint = GlobalVariables.getVertSetpoint();
+                }
+                vertSetpoint -= goodBall ? 0 : 500;
+                vertSetpoint = MathUtil.clamp(vertSetpoint, 0, 8000);
             }
-            vertSetpoint -= goodBall ? 0 : 500;
-            vertSetpoint = MathUtil.clamp(vertSetpoint, 0, 8000);
         }
         double vertSpeed = vertController.calculate(vertMotor.getSelectedSensorPosition(), vertSetpoint);
         vertSpeed = MathUtil.clamp(vertSpeed, -Constants.turretMaxVertSpeed, Constants.turretMaxVertSpeed);

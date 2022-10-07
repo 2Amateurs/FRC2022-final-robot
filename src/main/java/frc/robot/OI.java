@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.utils.AxisMapping;
+import frc.robot.utils.POVMapping;
 import frc.robot.utils.buttons.LogitechAttack;
 import frc.robot.utils.buttons.SwitchPro;
 import frc.robot.utils.buttons.ToggleBoard;
@@ -23,6 +24,7 @@ public class OI {
     public AxisMapping turretHorAim;
     public AxisMapping turretVertAim;
     public AxisMapping pneumaticAxis;
+
 
     private OI() {
         layouts.add(new TwoGamepad());
@@ -95,7 +97,7 @@ public class OI {
             distanceOffsetDown = payloadGamepad.btnMINUS;
             climberHighSpeedUp = payloadGamepad.btnX;
 
-            climberSubsystemToggle = toggleBoard.btn8;
+            //climberSubsystemToggle = toggleBoard.btn8;
 
             leftDriveAxis = new AxisMapping.Builder(leftFlightStickJoystick, LogitechAttack.axsY).deadzoneValue(0.1).build();
             leftTurnAxis = new AxisMapping.Builder(leftFlightStickJoystick, LogitechAttack.axsX).build();
@@ -112,6 +114,15 @@ public class OI {
             rightClimberUp = rightFlightStick.btn5;
             leftClimberDown = leftFlightStick.btn4;
             leftClimberUp = leftFlightStick.btn6;
+            rightStickPOV = POVMapping.getBuilder().setJoystick(rightFlightStickJoystick).build();
+            leftStickPOV = POVMapping.getBuilder().setJoystick(leftFlightStickJoystick).build();
+
+            rightClimberUp = new Trigger(() -> rightStickPOV.isFront());
+            rightClimberDown = new Trigger(()-> rightStickPOV.isBack());
+            rightClimberStop = new Trigger(()-> (rightStickPOV.isFront() && rightStickPOV.isBack()) == false);
+            leftClimberUp = new Trigger(() -> leftStickPOV.isFront());
+            leftClimberDown = new Trigger(()-> leftStickPOV.isBack());
+            leftClimberStop = new Trigger(()-> (leftStickPOV.isFront() && leftStickPOV.isBack()) == false);
         }
     }
 
@@ -120,13 +131,17 @@ public class OI {
         Joystick rightFlightStickJoystick = new Joystick(1);
         Joystick payloadGamepadJoystick = new Joystick(2);
         Joystick driveGamepadJoystick = new Joystick(3);
-        Joystick toggleBoardJoystick = new Joystick(4);
+        //Joystick toggleBoardJoystick = new Joystick(4);
 
         LogitechAttack leftFlightStick = new LogitechAttack(leftFlightStickJoystick);
         LogitechAttack rightFlightStick = new LogitechAttack(rightFlightStickJoystick);
+        public POVMapping rightStickPOV;
+        public POVMapping leftStickPOV;
+        public Trigger leftClimberStop = new Trigger();
+        public Trigger rightClimberStop = new Trigger();
         SwitchPro payloadGamepad = new SwitchPro(payloadGamepadJoystick);
         SwitchPro driveGamepad = new SwitchPro(driveGamepadJoystick);
-        ToggleBoard toggleBoard = new ToggleBoard(toggleBoardJoystick);
+        //ToggleBoard toggleBoard = new ToggleBoard(toggleBoardJoystick);
 
         public Trigger gyroResetBtn = new Trigger();
         public Trigger driveModeDownBtn = new Trigger();
