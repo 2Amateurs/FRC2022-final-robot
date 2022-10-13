@@ -97,7 +97,7 @@ public class OI {
             distanceOffsetDown = payloadGamepad.btnMINUS;
             climberHighSpeedUp = payloadGamepad.btnX;
 
-            //climberSubsystemToggle = toggleBoard.btn8;
+            climberSubsystemToggle = payloadGamepad.btnSCREENSHOT;
 
             leftDriveAxis = new AxisMapping.Builder(leftFlightStickJoystick, LogitechAttack.axsY).deadzoneValue(0.1).build();
             leftTurnAxis = new AxisMapping.Builder(leftFlightStickJoystick, LogitechAttack.axsX).build();

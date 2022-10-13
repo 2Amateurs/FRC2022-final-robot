@@ -1,6 +1,7 @@
 package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.GlobalVariables;
 
 public class POVMapping {
     Joystick joystick;
@@ -8,10 +9,12 @@ public class POVMapping {
         this.joystick = builder.joystick;
     }
     public boolean isFront() {
-        return (joystick.getPOV() == 0);
+        int POV = joystick.getPOV();
+        return ((POV == 315 || POV == 0 || POV == 45) && GlobalVariables.climberEnabled);
     }
     public boolean isBack() {
-        return (joystick.getPOV() == 180);
+        int POV = joystick.getPOV();
+        return ((POV == 135 || POV == 180 || POV == 225) && GlobalVariables.climberEnabled);
     }
     public static Builder getBuilder() {
         return new Builder();

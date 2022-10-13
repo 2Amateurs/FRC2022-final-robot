@@ -14,6 +14,7 @@ public class GlobalVariables {
     public static boolean readyOverride = true;
     public static boolean offsetOverride = true;
     public static boolean goodBall = true;
+    public static boolean climberEnabled = false;
 
     public static void setDistance(double distance) {
         if (distance > 0) {

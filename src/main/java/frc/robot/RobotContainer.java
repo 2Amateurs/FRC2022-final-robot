@@ -142,7 +142,7 @@ public class RobotContainer {
                 .whenActive(climberLeftDown)
                 .whenInactive(climberManualStopCommand);
 
-        //oi.turretAutoToggleBtn.whenActive(turretAutoToggleCommand);
+        oi.turretAutoToggleBtn.whenActive(turretAutoToggleCommand);
         oi.turretModeDownBtn.whenActive(turretModeDecreaseCommand);
         oi.turretModeUpBtn.whenActive(turretModeIncreaseCommand);
 
@@ -170,6 +170,7 @@ public class RobotContainer {
         oi.leftClimberUp.whenActive(climberLeftUp);
         oi.leftClimberDown.whenActive(climberLeftDown);
         oi.leftClimberStop.whenActive(climberLeftStop);
+        oi.climberSubsystemToggle.whenActive(() -> GlobalVariables.climberEnabled = ! GlobalVariables.climberEnabled);
         oi.rightClimberDown
                 .whenActive(climberRightDown)
                 .whenInactive(climberManualStopCommand);
