@@ -163,6 +163,7 @@ public class RobotContainer {
                 .whenActive(TurretSubsystem.EncoderWrapper::reset)
                 .whenActive(Robot::resetGyro)
                 .whenActive(() -> TurretSubsystem.targetYaw = 0.0);
+        oi.wheelAimBtn.whenActive(() -> GlobalVariables.wheelAiming = true);
 
         oi.rightClimberUp.whenActive(climberRightUp);
         oi.rightClimberDown.whenActive(climberRightDown);

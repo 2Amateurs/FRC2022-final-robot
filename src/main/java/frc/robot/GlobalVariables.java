@@ -15,6 +15,8 @@ public class GlobalVariables {
     public static boolean offsetOverride = true;
     public static boolean goodBall = true;
     public static boolean climberEnabled = false;
+    public static boolean wheelAiming = false;
+    public static double autoWheelTurn = 0;
 
     public static void setDistance(double distance) {
         if (distance > 0) {

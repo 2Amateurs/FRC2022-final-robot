@@ -16,6 +16,10 @@ public class POVMapping {
         int POV = joystick.getPOV();
         return ((POV == 135 || POV == 180 || POV == 225) && GlobalVariables.climberEnabled);
     }
+    public boolean isActive() {
+        int POV = joystick.getPOV();
+        return !(POV == -1);
+    }
     public static Builder getBuilder() {
         return new Builder();
     }

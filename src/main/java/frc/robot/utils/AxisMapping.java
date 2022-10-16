@@ -2,6 +2,7 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
 
 /**
  * A wrapper class for the axis of a {@link Joystick Joystick} designed to have the ability to invert, override, or
@@ -15,6 +16,12 @@ public class AxisMapping {
     private double overrideValue = 0.0;
     private boolean deadzone = true;
     private double deadzoneValue = Constants.DeadzoneDefault;
+    private DriveStick driveControlType = DriveStick.NONE;
+    public enum DriveStick {
+        NONE,
+        LEFT,
+        RIGHT
+    }
 
     private AxisMapping(Builder builder) {
         this.joystick = builder.joystick;
@@ -24,6 +31,7 @@ public class AxisMapping {
         this.overrideValue = builder.overrideValue;
         this.deadzone = builder.deadzone;
         this.deadzoneValue = builder.deadzoneValue;
+        this.driveControlType = builder.driveControl;
     }
 
     /**
@@ -36,6 +44,13 @@ public class AxisMapping {
         }
         if (inverted) {
             value *= -1;
+        }
+        if (!(driveControlType == DriveStick.NONE) && Constants.WHEEL_AIM && GlobalVariables.wheelAiming && GlobalVariables.autoTarget) {
+            if (driveControlType == DriveStick.LEFT) {
+                return -GlobalVariables.autoWheelTurn;
+            } else {
+                return GlobalVariables.autoWheelTurn;
+            }
         }
         if (this.deadzone && Math.abs(value) <= deadzoneValue) {
             value = 0.0;
@@ -144,6 +159,7 @@ public class AxisMapping {
         private double overrideValue = 0.0;
         private boolean deadzone = true;
         private double deadzoneValue = Constants.DeadzoneDefault;
+        private DriveStick driveControl = DriveStick.NONE;
 
         public Builder(Joystick joystick, int axisID) {
             this.joystick = joystick;
@@ -152,6 +168,10 @@ public class AxisMapping {
 
         public Builder inverted(boolean inverted) {
             this.inverted = inverted;
+            return this;
+        }
+        public Builder setDriveControl(DriveStick driveControl) {
+            this.driveControl = driveControl;
             return this;
         }
 

@@ -6,7 +6,6 @@ import frc.robot.utils.AxisMapping;
 import frc.robot.utils.POVMapping;
 import frc.robot.utils.buttons.LogitechAttack;
 import frc.robot.utils.buttons.SwitchPro;
-import frc.robot.utils.buttons.ToggleBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +66,9 @@ public class OI {
             distanceOffsetDown = payloadGamepad.btnMINUS;
             climberHighSpeedUp = payloadGamepad.btnX;
 
-            leftDriveAxis = new AxisMapping.Builder(driveGamepadJoystick, SwitchPro.axsLY).build();
+            leftDriveAxis = new AxisMapping.Builder(driveGamepadJoystick, SwitchPro.axsLY).setDriveControl(AxisMapping.DriveStick.LEFT).build();
             leftTurnAxis = new AxisMapping.Builder(driveGamepadJoystick, SwitchPro.axsLX).inverted(true).build();
-            rightDriveAxis = new AxisMapping.Builder(driveGamepadJoystick, SwitchPro.axsRY).build();
+            rightDriveAxis = new AxisMapping.Builder(driveGamepadJoystick, SwitchPro.axsRY).setDriveControl(AxisMapping.DriveStick.RIGHT).build();
 
             turretHorAim = new AxisMapping.Builder(payloadGamepadJoystick, SwitchPro.axsLX).build();
             turretVertAim = new AxisMapping.Builder(payloadGamepadJoystick, SwitchPro.axsLY).build();
@@ -98,6 +97,9 @@ public class OI {
             climberHighSpeedUp = payloadGamepad.btnX;
 
             climberSubsystemToggle = payloadGamepad.btnSCREENSHOT;
+
+            wheelAimPOV = POVMapping.getBuilder().setJoystick(payloadGamepadJoystick).build();
+            wheelAimBtn = new Trigger(()-> wheelAimPOV.isActive());
 
             leftDriveAxis = new AxisMapping.Builder(leftFlightStickJoystick, LogitechAttack.axsY).deadzoneValue(0.1).build();
             leftTurnAxis = new AxisMapping.Builder(leftFlightStickJoystick, LogitechAttack.axsX).build();
@@ -143,6 +145,8 @@ public class OI {
         SwitchPro driveGamepad = new SwitchPro(driveGamepadJoystick);
         //ToggleBoard toggleBoard = new ToggleBoard(toggleBoardJoystick);
 
+        public POVMapping wheelAimPOV;
+        public Trigger wheelAimBtn = new Trigger();
         public Trigger gyroResetBtn = new Trigger();
         public Trigger driveModeDownBtn = new Trigger();
         public Trigger driveModeUpBtn = new Trigger();

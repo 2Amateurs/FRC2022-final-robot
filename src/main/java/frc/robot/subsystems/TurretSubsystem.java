@@ -28,6 +28,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     private final VictorSPX horMotor = new VictorSPX(Constants.turretHorMotorPort);
     private final PIDController horController = new PIDController(0.013, 0.0, 0.0);
+    private final PIDController wheelAimController = new PIDController(0.013, 0.0, 0.0);
     private double horEncoderPos = 0;
 
     private final TalonSRX vertMotor = new TalonSRX(Constants.turretVertMotorPort);
@@ -204,13 +205,19 @@ public class TurretSubsystem extends SubsystemBase {
         double horSpeed = -horController.calculate(horEncoderPos, horEncoderPos + clampedHorGoalDiff);
         horSpeed = MathUtil.clamp(horSpeed, -Constants.turretMaxHorSpeed, Constants.turretMaxHorSpeed);
         if (Constants.DEBUG_MODE) {
-            SmartDashboard.putNumber("Hori Target Speed", horSpeed);
+            SmartDashboard.putNumber("Hor Target Speed", horSpeed);
         }
-
-        if (Math.abs(horSpeed) < Constants.MinTurretSpeed) {
-            horMotor.set(ControlMode.PercentOutput, 0);
+        if (Constants.WHEEL_AIM) {
+            GlobalVariables.autoWheelTurn = MathUtil.clamp(wheelAimController.calculate(goalYaw, 0), -0.3, 0.3);
+            if (Math.abs(goalYaw) < 1) {
+                GlobalVariables.wheelAiming = false;
+            }
         } else {
-            horMotor.set(ControlMode.PercentOutput, horSpeed);
+            if (Math.abs(horSpeed) < Constants.MinTurretSpeed) {
+                horMotor.set(ControlMode.PercentOutput, 0);
+            } else {
+                horMotor.set(ControlMode.PercentOutput, horSpeed);
+            }
         }
     }
 
