@@ -21,6 +21,7 @@ public final class Constants {
     public static final boolean RAMSETE_AUTO = true;
     public static final boolean OUTREACH_MODE = false;
     public static final boolean SAFE_MODE = false;
+    public static final boolean WHEEL_AIM = true;
 
     //region DRIVE VALUES
     public static final int leftFrontDriveMotorPort = 23; //old: 11

@@ -10,10 +10,12 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 import frc.robot.Robot;
+import frc.robot.commands.DriveTurnCommand;
 import frc.robot.commands.TurretDefaultCommand;
 import org.photonvision.PhotonCamera;
 import org.photonvision.common.hardware.VisionLEDMode;
@@ -204,13 +206,16 @@ public class TurretSubsystem extends SubsystemBase {
         double horSpeed = -horController.calculate(horEncoderPos, horEncoderPos + clampedHorGoalDiff);
         horSpeed = MathUtil.clamp(horSpeed, -Constants.turretMaxHorSpeed, Constants.turretMaxHorSpeed);
         if (Constants.DEBUG_MODE) {
-            SmartDashboard.putNumber("Hori Target Speed", horSpeed);
+            SmartDashboard.putNumber("Hor Target Speed", horSpeed);
         }
-
-        if (Math.abs(horSpeed) < Constants.MinTurretSpeed) {
-            horMotor.set(ControlMode.PercentOutput, 0);
+        if (Constants.WHEEL_AIM) {
+            CommandScheduler.getInstance().schedule(new DriveTurnCommand(()-> 3)); //placeholder
         } else {
-            horMotor.set(ControlMode.PercentOutput, horSpeed);
+            if (Math.abs(horSpeed) < Constants.MinTurretSpeed) {
+                horMotor.set(ControlMode.PercentOutput, 0);
+            } else {
+                horMotor.set(ControlMode.PercentOutput, horSpeed);
+            }
         }
     }
 

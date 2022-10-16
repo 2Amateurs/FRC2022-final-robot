@@ -15,6 +15,7 @@ public class AxisMapping {
     private double overrideValue = 0.0;
     private boolean deadzone = true;
     private double deadzoneValue = Constants.DeadzoneDefault;
+    private boolean driveControl = false;
 
     private AxisMapping(Builder builder) {
         this.joystick = builder.joystick;
@@ -24,6 +25,7 @@ public class AxisMapping {
         this.overrideValue = builder.overrideValue;
         this.deadzone = builder.deadzone;
         this.deadzoneValue = builder.deadzoneValue;
+        this.driveControl = builder.driveControl;
     }
 
     /**
@@ -36,6 +38,9 @@ public class AxisMapping {
         }
         if (inverted) {
             value *= -1;
+        }
+        if (driveControl) {
+
         }
         if (this.deadzone && Math.abs(value) <= deadzoneValue) {
             value = 0.0;
@@ -144,6 +149,7 @@ public class AxisMapping {
         private double overrideValue = 0.0;
         private boolean deadzone = true;
         private double deadzoneValue = Constants.DeadzoneDefault;
+        private boolean driveControl = false;
 
         public Builder(Joystick joystick, int axisID) {
             this.joystick = joystick;
@@ -152,6 +158,10 @@ public class AxisMapping {
 
         public Builder inverted(boolean inverted) {
             this.inverted = inverted;
+            return this;
+        }
+        public Builder setAsDriveControl() {
+            this.driveControl = true;
             return this;
         }
 
