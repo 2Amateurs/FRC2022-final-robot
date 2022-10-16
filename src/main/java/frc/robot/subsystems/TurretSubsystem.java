@@ -209,7 +209,7 @@ public class TurretSubsystem extends SubsystemBase {
         }
         if (Constants.WHEEL_AIM) {
             GlobalVariables.autoWheelTurn = MathUtil.clamp(wheelAimController.calculate(goalYaw, 0), -0.3, 0.3);
-            if (Math.abs(goalYaw) < 1) {
+            if (Math.abs(goalYaw) < 1 || autoTarget == false) {
                 GlobalVariables.wheelAiming = false;
             }
         } else {

@@ -78,6 +78,7 @@ public class RobotContainer {
 
     //region Climber
     private final ClimberSubsystem climberSubsystem = ClimberSubsystem.getInstance();
+    private final ClimberToggleCommand climberToggleCommand = new ClimberToggleCommand();
     private final ClimberManualCommand climberLeftDown = new ClimberManualCommand(ClimberSubsystem.Side.LEFT, 0.4);
     private final ClimberManualCommand climberRightDown = new ClimberManualCommand(ClimberSubsystem.Side.RIGHT, 0.4);
     private final ClimberManualCommand climberLeftUp = new ClimberManualCommand(ClimberSubsystem.Side.LEFT, -0.4);
@@ -171,7 +172,7 @@ public class RobotContainer {
         oi.leftClimberUp.whenActive(climberLeftUp);
         oi.leftClimberDown.whenActive(climberLeftDown);
         oi.leftClimberStop.whenActive(climberLeftStop);
-        oi.climberSubsystemToggle.whenActive(() -> GlobalVariables.climberEnabled = ! GlobalVariables.climberEnabled);
+        oi.climberSubsystemToggle.toggleWhenActive(climberToggleCommand);
         oi.rightClimberDown
                 .whenActive(climberRightDown)
                 .whenInactive(climberManualStopCommand);

@@ -101,9 +101,9 @@ public class OI {
             wheelAimPOV = POVMapping.getBuilder().setJoystick(payloadGamepadJoystick).build();
             wheelAimBtn = new Trigger(()-> wheelAimPOV.isActive());
 
-            leftDriveAxis = new AxisMapping.Builder(leftFlightStickJoystick, LogitechAttack.axsY).deadzoneValue(0.1).build();
+            leftDriveAxis = new AxisMapping.Builder(leftFlightStickJoystick, LogitechAttack.axsY).deadzoneValue(0.1).setDriveControl(AxisMapping.DriveStick.LEFT).build();
             leftTurnAxis = new AxisMapping.Builder(leftFlightStickJoystick, LogitechAttack.axsX).build();
-            rightDriveAxis = new AxisMapping.Builder(rightFlightStickJoystick, LogitechAttack.axsY).deadzoneValue(0.1).build();
+            rightDriveAxis = new AxisMapping.Builder(rightFlightStickJoystick, LogitechAttack.axsY).deadzoneValue(0.1).setDriveControl(AxisMapping.DriveStick.RIGHT).build();
 
             turretHorAim = new AxisMapping.Builder(payloadGamepadJoystick, SwitchPro.axsLX).build();
             turretVertAim = new AxisMapping.Builder(payloadGamepadJoystick, SwitchPro.axsLY).build();
