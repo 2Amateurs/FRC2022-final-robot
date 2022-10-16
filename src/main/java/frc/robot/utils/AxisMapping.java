@@ -45,7 +45,7 @@ public class AxisMapping {
         if (inverted) {
             value *= -1;
         }
-        if (!(driveControlType == DriveStick.NONE) && Constants.WHEEL_AIM && GlobalVariables.wheelAiming && GlobalVariables.autoTarget) {
+        if ((!(driveControlType == DriveStick.NONE)) && Constants.WHEEL_AIM && GlobalVariables.wheelAiming && GlobalVariables.autoTarget) {
             if (driveControlType == DriveStick.LEFT) {
                 return -GlobalVariables.autoWheelTurn;
             } else {

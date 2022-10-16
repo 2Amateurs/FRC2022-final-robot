@@ -8,7 +8,9 @@ import frc.robot.subsystems.TurretSubsystem;
 public class ClimberToggleCommand extends CommandBase {
     private final ClimberSubsystem subsystem = ClimberSubsystem.getInstance();
 
-    public ClimberToggleCommand(){}
+    public ClimberToggleCommand(){
+        addRequirements(subsystem);
+    }
 
     @Override
     public void initialize() {
