@@ -74,6 +74,7 @@ public class RobotContainer {
     private final ShooterSubsystem shooterSubsystem = ShooterSubsystem.getInstance();
     private final ShooterCommand shootStartCommand = new ShooterCommand(true);
     private final ShooterCommand shootStopCommand = new ShooterCommand(false);
+    private final AutomaticShootCommand automaticShootCommand = new AutomaticShootCommand(1);
     //endregion
 
     //region Climber
@@ -111,6 +112,9 @@ public class RobotContainer {
         // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
         // Example code for running a command with a button
         // oi.exampleButton.whenPressed(new ExampleCommand(exampleSubsystem));
+
+        oi.automaticShoot.whenActive(automaticShootCommand);
+
         if (!Constants.OUTREACH_MODE) {
             oi.driveModeDownBtn.whenActive(driveModeDecreaseCommand);
             oi.driveModeUpBtn.whenActive(driveModeIncreaseCommand);

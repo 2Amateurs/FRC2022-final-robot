@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.utils.AxisMapping;
 import frc.robot.utils.POVMapping;
@@ -54,7 +55,7 @@ public class OI {
             driveModeUpBtn = driveGamepad.btnR;
             driveFastModeBtn = driveGamepad.btnHOME;
 
-            shooterBtn = payloadGamepad.btnZL;
+            shooterBtn = new Trigger(); //was previously mapped to btnZL, but I unmapped it for outreach events
             storageInBtn = payloadGamepad.btnZR;
             storageOutBtn = payloadGamepad.btnL;
             turretModeUpBtn = payloadGamepad.btnA;
@@ -74,6 +75,8 @@ public class OI {
             turretHorAim = new AxisMapping.Builder(payloadGamepadJoystick, SwitchPro.axsLX).build();
             turretVertAim = new AxisMapping.Builder(payloadGamepadJoystick, SwitchPro.axsLY).build();
             pneumaticAxis = new AxisMapping.Builder(payloadGamepadJoystick, SwitchPro.axsRY).build();
+
+            automaticShoot = payloadGamepad.btnZL;
         }
     }
 
@@ -177,6 +180,8 @@ public class OI {
         public AxisMapping turretHorAim;
         public AxisMapping turretVertAim;
         public AxisMapping pneumaticAxis;
+
+        Trigger automaticShoot;
 
         Layout() {
             assignButtons();
